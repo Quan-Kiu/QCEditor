@@ -7,6 +7,7 @@ type Props = {
   html: string;
   javascript: string;
   css: string;
+  onResetCode: () => void;
 };
 
 export interface PagePreviewRef {
@@ -15,10 +16,20 @@ export interface PagePreviewRef {
   setJavascript(value: string): void;
 }
 
-const PagePreview = ({ size, onResize, html, javascript, css }: Props) => {
+const PagePreview = ({
+  size,
+  onResize,
+  html,
+  javascript,
+  css,
+  onResetCode,
+}: Props) => {
   return (
     <div className="page-preview relative">
-      <div className="h-navbar-height flex justify-end bg-slate-950">
+      <div className="h-navbar-height gap-4 flex justify-end bg-slate-950">
+        {/* <button onClick={onResetCode} className="text-xs tool underline">
+          Reset Code
+        </button> */}
         <div className="resize-tool ">
           <select
             onChange={(e) => {
@@ -31,6 +42,7 @@ const PagePreview = ({ size, onResize, html, javascript, css }: Props) => {
             name="size"
             id="size"
           >
+            <option value="100">100%</option>
             <option value="80">80%</option>
             <option value="60">60%</option>
             <option value="40">40%</option>

@@ -13,13 +13,13 @@ const UserCard = ({ user }: Props) => {
     <div className="user-card flex flex-col items-center">
       <div className="user-card_avatar">
         <UserAvatar
-          className="w-[60px] h-[60px]"
+          className="w-[65px] h-[65px]"
           src={user?.avatar}
         ></UserAvatar>
       </div>
       <div
         title={user.name}
-        className="user-card__name truncate w-[80px] text-center font-semibold cursor-pointer text-xs hover:underline mt-2"
+        className="user-card__name truncate w-[80px] text-center font-semibold cursor-pointer text-xs hover:underline mt-3"
       >
         {user.name}
       </div>

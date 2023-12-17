@@ -6,8 +6,13 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
+      colors: {
+        primary: "#5c6ac4",
+      },
+
       width: {
         "code-editor-width": "calc(100vw - var(--sidebarWidth))",
         "sidebar-width": "var(--sidebarWidth)",

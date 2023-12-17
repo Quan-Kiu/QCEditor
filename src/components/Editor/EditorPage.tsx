@@ -142,10 +142,13 @@ class InitFiles {
     this.event = ev;
   }
 
+  reset() {
+    this.files = cloneDeep(defaultFiles);
+    this.event(this.files);
+  }
+
   setFiles(files: FileData[]) {
-    console.log("files: ", files);
     this.files = files || cloneDeep(defaultFiles);
-    console.log("files: ", this.files);
     this.event(this.files);
   }
 }

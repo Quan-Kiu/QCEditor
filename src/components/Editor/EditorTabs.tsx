@@ -3,7 +3,7 @@ import myLocalStorage, { PREVIEW_DEFAULT_SIZE } from "@/utils/localstorage";
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import { sass } from "@codemirror/lang-sass";
-import { Tabs, TabsProps, notification } from "antd";
+import { Modal, Tabs, TabsProps, notification } from "antd";
 import { debounce } from "lodash";
 import Image from "next/image";
 import {
@@ -163,7 +163,10 @@ const EditorTabs = (props: Props) => {
           src={`/${language.lang.toLowerCase()}-file.png`}
           alt=""
         ></Image>
-        <div className="truncate w-[46px] text-center align-bottom">
+        <div
+          title={language.label}
+          className="truncate w-[46px] text-center align-bottom"
+        >
           {language.label}
         </div>
       </div>
@@ -172,7 +175,6 @@ const EditorTabs = (props: Props) => {
     key: language.label,
     children: (
       <CodeEditor
-        indentWithTab={true}
         spellCheck={true}
         value={language.content}
         key={language.lang}
@@ -198,15 +200,15 @@ const EditorTabs = (props: Props) => {
     if (previewSize == 0) {
       return {
         codeEditor: `w-screen md:w-code-editor-width`,
-        preview: `w-0 mt-[32px] opacity-40 bg-slate-950 [&>.page-preview>iframe]:hidden`,
+        preview: `w-0 tool-hidden mt-[32px] opacity-40 bg-slate-950 [&>.page-preview>iframe]:hidden`,
       };
     }
     const previewPart = (5 * previewSize) / 100;
     const codeEditorPart = 5 - previewPart;
 
     return {
-      codeEditor: `w-${codeEditorPart}/5`,
-      preview: `w-${previewPart}/5`,
+      codeEditor: codeEditorPart == 0 ? "w-0" : `w-${codeEditorPart}/5`,
+      preview: previewPart == 5 ? "w-full" : `w-${previewPart}/5`,
     };
   }, [previewSize]);
 
@@ -214,7 +216,7 @@ const EditorTabs = (props: Props) => {
 
   return (
     <div className="flex w-screen md:w-code-editor-width ">
-      <div className="w-4/5 w-1/5 w-2/5 w-3/5  hidden"></div>
+      <div className="w-4/5 w-1/5 w-2/5 w-3/5 hidden"></div>
       <Tabs
         activeKey={fileActive}
         onChange={(key) => setFileActive(key)}
@@ -233,6 +235,19 @@ const EditorTabs = (props: Props) => {
       ></Tabs>
       <div className={`preview ${widthClassName.preview}`}>
         <PagePreview
+          onResetCode={() => {
+            Modal.confirm({
+              cancelText: "Đóng",
+              okButtonProps: {
+                className: "bg-slate-950",
+              },
+              onOk: () => {
+                initFiles.reset();
+              },
+              title: "Bạn có chắc chắn muốn reset code?",
+              content: "Các file mã sẽ được reset về mặc định, bạn chắc chứ?",
+            });
+          }}
           html={htmlContent}
           javascript={javascriptContent}
           css={cssContent}

@@ -6,6 +6,7 @@ import { CookiesProvider } from "next-client-cookies/server";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { CoderContextProvider } from "@/context/CoderContext";
 import { AppContextProvider, useAppContext } from "@/context/AppContext";
+import { ConfigProvider } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
