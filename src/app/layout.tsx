@@ -1,18 +1,17 @@
+import { AppContextProvider } from "@/context/AppContext";
+import { AuthContextProvider } from "@/context/AuthContext";
+import { CoderContextProvider } from "@/context/CoderContext";
 import type { Metadata } from "next";
+import { CookiesProvider } from "next-client-cookies/server";
 import { Inter } from "next/font/google";
 import { CSSProperties } from "react";
 import "./globals.css";
-import { CookiesProvider } from "next-client-cookies/server";
-import { AuthContextProvider } from "@/context/AuthContext";
-import { CoderContextProvider } from "@/context/CoderContext";
-import { AppContextProvider, useAppContext } from "@/context/AppContext";
-import { ConfigProvider } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "QCEditor",
-  description: "QCEditor",
+  title: "QCEditor - Code together",
+  description: "QCEditor - Code together",
 };
 
 const cssVariables = {
