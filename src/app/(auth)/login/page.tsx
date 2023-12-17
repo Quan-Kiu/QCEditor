@@ -40,7 +40,7 @@ export default function Page() {
               message: "Vui lòng nhập đúng đường dẫn ảnh",
             },
           ]}
-          label="Ảnh đại diện"
+          label="Ảnh đại diện ( có thẻ bỏ trống )"
           name={"avatar"}
         >
           <Input placeholder="Nhập link ảnh đại diện"></Input>
