@@ -19,6 +19,8 @@ import CodeEditor from "./CodeEditor";
 import { initFiles, socketUtil } from "./EditorPage";
 import NewFIleModal, { AppModalRef } from "./NewFIleModal";
 import PagePreview from "./Preview/PagePreview";
+import { useAppContext } from "@/context/AppContext";
+import { useAuthContext } from "@/context/AuthContext";
 
 type Props = {};
 
@@ -40,6 +42,8 @@ const EditorTabs = (props: Props) => {
   const [javascriptContent, setJavascript] = useState("");
   const [isInit, setIsInit] = useState(false);
   const [pending, startTransaction] = useTransition();
+  const { setLoading } = useAppContext();
+  const { data } = useAuthContext();
 
   useEffect(() => {
     setPreviewSize(myLocalStorage.getPreviewSize());
@@ -78,18 +82,21 @@ const EditorTabs = (props: Props) => {
       initFiles.files.forEach((lang) => {
         onEditorChange(lang?.content, lang);
       });
+
+      setIsInit(false);
+      setLoading(false);
     }
     return () => {};
   }, [isInit]);
 
   useEffect(() => {
-    if (!!socketUtil.socket) {
+    if (data.isLoggedIn) {
       initFiles.setEvent((files) => {
         setFiles(files);
         setIsInit(true);
       });
     }
-  }, [socketUtil.socket]);
+  }, [data.isLoggedIn]);
 
   useEffect(() => {
     if (!!socketUtil.socket) {

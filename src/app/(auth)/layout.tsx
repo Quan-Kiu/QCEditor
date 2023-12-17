@@ -1,4 +1,3 @@
-import { AuthContextProvider } from "@/context/AuthContext";
 import "../globals.css";
 
 const SimpleLayout = (props: { children: React.ReactNode }) => {

@@ -8,14 +8,15 @@ const MyUser = (props: Props) => {
   const { data, handleLogout } = useAuthContext();
   return (
     <>
-      <div className="my-user p-4 flex justify-between items-center h-navbar-height  gap-2">
-        <div className="flex items-center">
+      <div className="my-user p-4 flex justify-between items-center h-navbar-height gap-2">
+        <div className="flex items-center gap-2">
           <UserAvatar
+            className="w-[20px] h-[20px]"
             src={data.user?.avatar}
             width={20}
             height={20}
           ></UserAvatar>
-          <div className="name text-xs font-semibold uppercase">
+          <div className="name truncate w-[100px] text-xs font-semibold uppercase">
             {data.user?.name}
           </div>
         </div>

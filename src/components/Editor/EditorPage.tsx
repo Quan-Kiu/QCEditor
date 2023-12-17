@@ -11,6 +11,7 @@ import "./editor.scss";
 import { useCoderContext } from "@/context/CoderContext";
 import { FileData, LanguageEditor } from "@/hooks/useFIleCode";
 import { cloneDeep } from "lodash";
+import { useAppContext } from "@/context/AppContext";
 
 export const defaultFiles = [
   {
@@ -19,7 +20,8 @@ export const defaultFiles = [
     isMain: true,
     content: `
 <main class="page">
-   <div>
+  <!!HEADER/>
+   <section class="body">
        Chào mừng đến với
        <strong>
          QCEditor
@@ -27,7 +29,8 @@ export const defaultFiles = [
        <div>
         🌟🌟🌟🌟🌟🌟
        </div>
-   </div>
+   </section>
+   <!!FOOTER/>
  </main>`,
   },
   {
@@ -46,11 +49,16 @@ export const defaultFiles = [
   background:#020617;
   color: white;
   display:flex;
+  flex-direction:column;
   justify-content:center;
-  align-items:center;
   width: 100vw;
   height: 100vh;
-  & > div{
+  & > .body{
+    flex:1;
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    font-weight:bold;
     font-size: 32px;
     font-weight: 500;
     text-align: center;
@@ -59,6 +67,13 @@ export const defaultFiles = [
       margin-block: 8px;
       font-size: 38px
     }
+  }
+
+  .header{
+    background: green;
+    padding-block: 32px;
+    padding-inline: 24px;
+    text-transform: uppercase;
   }
 
 }
@@ -70,6 +85,20 @@ export const defaultFiles = [
 
     isMain: true,
     content: "",
+  },
+  {
+    lang: LanguageEditor.HTML,
+    label: "Header",
+    content: `<section class="header">
+      Đây là Header
+    </section>`,
+  },
+  {
+    lang: LanguageEditor.HTML,
+    label: "Footer",
+    content: `<section class="header">
+    Đây là Footer
+  </section>`,
   },
 ];
 
@@ -114,7 +143,9 @@ class InitFiles {
   }
 
   setFiles(files: FileData[]) {
+    console.log("files: ", files);
     this.files = files || cloneDeep(defaultFiles);
+    console.log("files: ", this.files);
     this.event(this.files);
   }
 }
@@ -124,6 +155,7 @@ export const initFiles = new InitFiles();
 const EditorPage = (props: Props) => {
   const { data } = useAuthContext();
   const { handleAddUsers } = useCoderContext();
+  const { setLoading } = useAppContext();
 
   const socketInitializer = useCallback(async () => {
     socketUtil.init();
@@ -149,6 +181,8 @@ const EditorPage = (props: Props) => {
   }, [data, handleAddUsers]);
 
   useEffect(() => {
+    setLoading(true);
+
     if (!!data.user) {
       socketInitializer();
     }

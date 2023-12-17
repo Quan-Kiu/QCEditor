@@ -19,7 +19,7 @@ interface IAuthContext {
     isLoggedIn: boolean;
     user?: User;
   };
-  handleLogin: (name: string) => void;
+  handleLogin: (data: Partial<User>) => void;
   handleLogout: () => void;
 }
 
@@ -27,7 +27,7 @@ const initData: IAuthContext = {
   data: {
     isLoggedIn: false,
   },
-  handleLogin: (name: string) => {},
+  handleLogin: (data: Partial<User>) => {},
   handleLogout: () => {},
 };
 
@@ -47,13 +47,13 @@ export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
   });
   const router = useRouter();
 
-  const handleLogin = (name: string) => {
+  const handleLogin = (data: Partial<User>) => {
     const user: User = {
-      name,
-      avatar: "",
       id:
         new Date().getMilliseconds() +
         Math.floor(Math.random() * (99999999 - 1000000) + 1000000),
+      name: data.name as string,
+      avatar: data.avatar || "",
     };
     cookies.set("user", JSON.stringify(user));
     setData({

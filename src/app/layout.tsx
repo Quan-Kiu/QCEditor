@@ -5,6 +5,7 @@ import "./globals.css";
 import { CookiesProvider } from "next-client-cookies/server";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { CoderContextProvider } from "@/context/CoderContext";
+import { AppContextProvider, useAppContext } from "@/context/AppContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,11 +27,15 @@ export default function RootLayout({
   return (
     <html translate="no" style={cssVariables} lang="en">
       <body className={inter.className}>
-        <CookiesProvider>
-          <AuthContextProvider>
-            <CoderContextProvider>{children}</CoderContextProvider>
-          </AuthContextProvider>
-        </CookiesProvider>
+        <AppContextProvider>
+          <CookiesProvider>
+            <AuthContextProvider>
+              <CoderContextProvider>
+                <AppContextProvider>{children}</AppContextProvider>
+              </CoderContextProvider>
+            </AuthContextProvider>
+          </CookiesProvider>
+        </AppContextProvider>
       </body>
     </html>
   );
