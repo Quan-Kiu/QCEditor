@@ -1,0 +1,59 @@
+.app-editor {
+  .ant-tabs {
+    .ant-tabs-nav {
+      margin-bottom: 0;
+      @apply bg-slate-950;
+
+      &::before {
+        content: "";
+        display: none;
+      }
+
+      &-add {
+        @apply bg-slate-800;
+        border: unset;
+        border-radius: 0;
+        color: white;
+      }
+      .ant-tabs-nav-more {
+        display: none;
+      }
+      .ant-tabs-nav-wrap {
+        .ant-tabs-tab {
+          border: unset;
+          border-radius: 0;
+          min-width: 100px;
+          font-size: 10px;
+          padding: 6px;
+          justify-content: center;
+          @apply bg-slate-950;
+          @apply text-gray-600;
+
+          .anticon-close {
+            font-size: 10px;
+            svg {
+              @apply text-gray-600;
+            }
+          }
+
+          &-active {
+            @apply bg-slate-800;
+            div {
+              @apply text-green-600;
+            }
+            .anticon-close {
+              svg {
+                @apply text-green-600;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .editor-board {
+    .cm-editor {
+      height: calc(100vh - var(--navbarHeight));
+    }
+  }
+}
