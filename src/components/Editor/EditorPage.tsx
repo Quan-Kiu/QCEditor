@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import EditorTabs, { defaultFiles, initFiles } from "./EditorTabs";
+import EditorTabs from "./EditorTabs";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { User } from "@/types/user";
@@ -9,7 +9,69 @@ import { io, Socket } from "socket.io-client";
 import { SOCKET_ACTION } from "../../../socketAction";
 import "./editor.scss";
 import { useCoderContext } from "@/context/CoderContext";
-import { FileData } from "@/hooks/useFIleCode";
+import { FileData, LanguageEditor } from "@/hooks/useFIleCode";
+import { cloneDeep } from "lodash";
+
+export const defaultFiles = [
+  {
+    lang: LanguageEditor.HTML,
+    label: LanguageEditor.HTML,
+    isMain: true,
+    content: `
+<main class="page">
+   <div>
+       Chào mừng đến với
+       <strong>
+         QCEditor
+       </strong>
+       <div>
+        🌟🌟🌟🌟🌟🌟
+       </div>
+   </div>
+ </main>`,
+  },
+  {
+    lang: LanguageEditor.SASS,
+    label: LanguageEditor.SASS,
+
+    isMain: true,
+    content: `
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing:border-box;
+}
+
+.page{
+  background:#020617;
+  color: white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width: 100vw;
+  height: 100vh;
+  & > div{
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+    strong{
+      display: block;
+      margin-block: 8px;
+      font-size: 38px
+    }
+  }
+
+}
+    `,
+  },
+  {
+    lang: LanguageEditor.JS,
+    label: LanguageEditor.JS,
+
+    isMain: true,
+    content: "",
+  },
+];
 
 export interface SOCKET_JOIN_DATA {
   roomId: string;
@@ -40,6 +102,19 @@ class SocketUtil {
 
 export const socketUtil = new SocketUtil();
 
+class InitFiles {
+  files: FileData[] = [];
+  constructor() {
+    this.files = [];
+  }
+
+  setFiles(files: FileData[]) {
+    this.files = files || cloneDeep(defaultFiles);
+  }
+}
+
+export const initFiles = new InitFiles();
+
 const EditorPage = (props: Props) => {
   const { data } = useAuthContext();
   const { handleAddUsers } = useCoderContext();
@@ -63,7 +138,7 @@ const EditorPage = (props: Props) => {
       handleAddUsers(users);
     });
     socketUtil.socket.on(SOCKET_ACTION.INIT_FILES, (files: FileData[]) => {
-      initFiles.files = files || defaultFiles;
+      initFiles.setFiles(files);
     });
   }, [data, handleAddUsers]);
 
@@ -72,7 +147,13 @@ const EditorPage = (props: Props) => {
       socketInitializer();
     }
 
-    return () => {};
+    return () => {
+      socketUtil.socket.off("connect");
+      socketUtil.socket.off(SOCKET_ACTION.JOIN_SUCCESS);
+      socketUtil.socket.off(SOCKET_ACTION.LEAVE);
+      socketUtil.socket.off(SOCKET_ACTION.NEW_USERS);
+      socketUtil.socket.off(SOCKET_ACTION.INIT_FILES);
+    };
   }, [data.user]);
 
   return (

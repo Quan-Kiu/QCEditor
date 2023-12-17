@@ -16,78 +16,11 @@ import {
 } from "react";
 import { SOCKET_ACTION } from "../../../socketAction";
 import CodeEditor from "./CodeEditor";
-import { socketUtil } from "./EditorPage";
+import { initFiles, socketUtil } from "./EditorPage";
 import NewFIleModal, { AppModalRef } from "./NewFIleModal";
 import PagePreview from "./Preview/PagePreview";
 
 type Props = {};
-
-export const defaultFiles = [
-  {
-    lang: LanguageEditor.HTML,
-    label: LanguageEditor.HTML,
-    isMain: true,
-    content: `
-<main class="page">
-   <div>
-       Chào mừng đến với
-       <strong>
-         QCEditor
-       </strong>
-       <div>
-        🌟🌟🌟🌟🌟🌟
-       </div>
-   </div>
- </main>`,
-  },
-  {
-    lang: LanguageEditor.SASS,
-    label: LanguageEditor.SASS,
-
-    isMain: true,
-    content: `
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing:border-box;
-}
-
-.page{
-  background:#020617;
-  color: white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width: 100vw;
-  height: 100vh;
-  & > div{
-    font-size: 32px;
-    font-weight: 500;
-    text-align: center;
-    strong{
-      display: block;
-      margin-block: 8px;
-      font-size: 38px
-    }
-  }
-
-}
-    `,
-  },
-  {
-    lang: LanguageEditor.JS,
-    label: LanguageEditor.JS,
-
-    isMain: true,
-    content: "",
-  },
-];
-
-export const initFiles: {
-  files: FileData[];
-} = {
-  files: [],
-};
 
 const EditorTabs = (props: Props) => {
   const {
@@ -153,7 +86,7 @@ const EditorTabs = (props: Props) => {
   useEffect(() => {
     if (!!socketUtil.socket) {
       if (!files.length) {
-        setFiles(initFiles.files || defaultFiles);
+        setFiles(initFiles.files);
         setIsInit(true);
       }
 
