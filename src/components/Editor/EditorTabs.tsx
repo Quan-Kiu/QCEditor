@@ -83,11 +83,13 @@ const EditorTabs = (props: Props) => {
   }, [isInit]);
 
   useEffect(() => {
-    if (!files.length) {
-      setFiles(initFiles.files);
-      setIsInit(true);
+    if (!!socketUtil.socket) {
+      initFiles.setEvent((files) => {
+        setFiles(files);
+        setIsInit(true);
+      });
     }
-  }, [initFiles.files, socketUtil.socket]);
+  }, [socketUtil.socket]);
 
   useEffect(() => {
     if (!!socketUtil.socket) {

@@ -104,12 +104,18 @@ export const socketUtil = new SocketUtil();
 
 class InitFiles {
   files: FileData[] = [];
+  event: (files: FileData[]) => void = (file: FileData[]) => {};
   constructor() {
     this.files = [];
   }
 
+  setEvent(ev: (files: FileData[]) => void) {
+    this.event = ev;
+  }
+
   setFiles(files: FileData[]) {
     this.files = files || cloneDeep(defaultFiles);
+    this.event(this.files);
   }
 }
 
