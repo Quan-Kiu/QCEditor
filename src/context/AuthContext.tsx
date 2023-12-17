@@ -54,11 +54,19 @@ export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
         Math.floor(Math.random() * (99999999 - 1000000) + 1000000),
     };
     cookies.set("user", JSON.stringify(user));
+    setData({
+      isLoggedIn: true,
+      user,
+    });
     router.push("/");
   };
 
   const handleLogout = () => {
     cookies.remove("user");
+    setData({
+      isLoggedIn: false,
+      user: undefined,
+    });
     router.push("/");
   };
   return (

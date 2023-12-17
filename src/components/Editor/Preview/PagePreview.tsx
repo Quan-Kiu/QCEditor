@@ -40,7 +40,7 @@ const PagePreview = ({ size, onResize, html, javascript, css }: Props) => {
         </div>
       </div>
       <iframe
-        className="w-full h-preview-height overflow-y-scroll bg-white"
+        className="w-full h-preview-height overflow-y-scroll bg-slate-950"
         srcDoc={`<!DOCTYPE html>
       <html lang="en">
       <head>

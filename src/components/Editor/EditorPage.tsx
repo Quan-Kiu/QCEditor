@@ -70,10 +70,11 @@ const EditorPage = (props: Props) => {
   }, [data, handleAddUsers]);
 
   useEffect(() => {
-    if (data.isLoggedIn) {
+    if (!!data.user) {
+      console.log("init socket data");
       socketInitializer();
     }
-  }, [data.isLoggedIn]);
+  }, [data.user]);
 
   return (
     <div className="app-editor h-full bg-slate-800">
