@@ -79,22 +79,22 @@ const EditorTabs = (props: Props) => {
         onEditorChange(lang?.content, lang);
       });
     }
-
     return () => {};
-  }, [isInit, onEditorChange]);
+  }, [isInit]);
+
+  useEffect(() => {
+    if (!files.length) {
+      setFiles(initFiles.files);
+      setIsInit(true);
+    }
+  }, [initFiles.files, socketUtil.socket]);
 
   useEffect(() => {
     if (!!socketUtil.socket) {
-      if (!files.length) {
-        setFiles(initFiles.files);
-        setIsInit(true);
-      }
-
       socketUtil.socket.on(
         SOCKET_ACTION.CODE_CHANGED_TO_CLIENT,
         onEditorChange
       );
-
       socketUtil.socket.on(SOCKET_ACTION.ADD_FILE_TO_CLIENT, addFile);
 
       socketUtil.socket.on(SOCKET_ACTION.DELETE_FILE_TO_CLIENT, removeFile);
@@ -103,7 +103,6 @@ const EditorTabs = (props: Props) => {
       socketUtil.socket.off(SOCKET_ACTION.CODE_CHANGED_TO_CLIENT);
       socketUtil.socket.off(SOCKET_ACTION.ADD_FILE_TO_CLIENT);
       socketUtil.socket.off(SOCKET_ACTION.DELETE_FILE_TO_CLIENT);
-      socketUtil.socket.off(SOCKET_ACTION.INIT_FILES);
     };
   }, [onEditorChange, socketUtil.socket]);
 
