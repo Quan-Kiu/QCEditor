@@ -25,18 +25,16 @@ class SocketUtil {
   constructor() {}
 
   init() {
-    if (!this.socket) {
-      const socket = io("https://qceditor.onrender.com", {
-        transports: ["websocket"],
-        path: "/socket",
-        reconnection: true,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax: 5000,
-        reconnectionAttempts: Infinity,
-      });
+    const socket = io("https://qceditor.onrender.com", {
+      transports: ["websocket"],
+      path: "/socket",
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: Infinity,
+    });
 
-      this.socket = socket;
-    }
+    this.socket = socket;
   }
 }
 
@@ -71,9 +69,10 @@ const EditorPage = (props: Props) => {
 
   useEffect(() => {
     if (!!data.user) {
-      console.log("init socket data");
       socketInitializer();
     }
+
+    return () => {};
   }, [data.user]);
 
   return (

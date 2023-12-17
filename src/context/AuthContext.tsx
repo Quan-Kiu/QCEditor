@@ -1,5 +1,6 @@
 "use client";
 
+import { socketUtil } from "@/components/Editor/EditorPage";
 import { User } from "@/types/user";
 import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { SOCKET_ACTION } from "../../socketAction";
 
 interface IAuthContext {
   data: {
@@ -67,7 +69,8 @@ export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
       isLoggedIn: false,
       user: undefined,
     });
-    router.push("/");
+    socketUtil.socket.disconnect();
+    router.refresh();
   };
   return (
     <AuthContext.Provider value={{ data, handleLogin, handleLogout }}>
