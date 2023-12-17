@@ -26,7 +26,7 @@ class SocketUtil {
 
   init() {
     if (!this.socket) {
-      const socket = io("http://localhost:5000", {
+      const socket = io("https://qceditor.onrender.com", {
         transports: ["websocket"],
         path: "/socket",
         reconnection: true,

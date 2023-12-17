@@ -153,7 +153,7 @@ const EditorTabs = (props: Props) => {
   useEffect(() => {
     if (!!socketUtil.socket) {
       if (!files.length) {
-        setFiles(initFiles.files);
+        setFiles(initFiles.files || defaultFiles);
         setIsInit(true);
       }
 
